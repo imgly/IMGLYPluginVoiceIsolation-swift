@@ -101,13 +101,12 @@ not play a local file.
 ## The cleaned audio
 
 Each cleaned clip plays a local WAV file (16-bit, 48 kHz, mono or stereo as the source) in the
-`ly.img.plugin.voiceIsolation` folder of the app's Application Support directory. The plugin deletes none of these
-files, also not after an undo, because a redo or a saved scene can play them again. Delete the files that no scene of
-your app refers to. The scene keeps the absolute file URL, and iOS can move the app's container when it updates the
-app, so save a scene that you keep with `engine.scene.saveToArchive()`, or move the files as below.
+`ly.img.plugin.voiceIsolation/results` folder of the app's caches directory. iOS can clear that directory. To keep a
+scene with its files on the device, save it with `engine.scene.saveToArchive()`.
 
-The plugin uploads nothing. To keep a scene that you save or send elsewhere playable, upload the files and point the
-scene at them, for example when the editor exports:
+The plugin uploads nothing. To keep the cleaned audio of a scene that you save or send elsewhere, upload the `file://`
+URLs that `engine.editor.findAllMediaURIs()` returns and point the scene to the uploads, for example when the editor
+exports:
 
 ```swift
 for url in try engine.editor.findAllMediaURIs() where url.isFileURL {

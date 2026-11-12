@@ -121,7 +121,10 @@ final class VoiceIsolationProcessorTests: XCTestCase {
 
     XCTAssertEqual(cleaned, audio)
     let result = try XCTUnwrap(URL(string: engine.block.getString(audio, property: "audio/fileURI")))
-    XCTAssertEqual(result.deletingLastPathComponent().lastPathComponent, "ly.img.plugin.voiceIsolation")
+    let caches = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil,
+                                             create: false)
+    XCTAssertEqual(result.deletingLastPathComponent().resolvingSymlinksInPath().path,
+                   caches.appendingPathComponent("ly.img.plugin.voiceIsolation/results").resolvingSymlinksInPath().path)
     let file = try AVAudioFile(forReading: result)
     XCTAssertEqual(file.fileFormat.sampleRate, 48000)
     XCTAssertEqual(file.fileFormat.channelCount, 1)

@@ -60,7 +60,7 @@ enum ModelDownloader {
       .prefix(8).map { String(format: "%02x", $0) }.joined()
     let root = try FileManager.default
       .url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-      .appendingPathComponent("ly.img.plugin.voiceIsolation/models", isDirectory: true)
+      .appendingPathComponent("ly.img.plugin.voiceIsolation/onnx", isDirectory: true)
     try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
     return root.appendingPathComponent(name, isDirectory: true)
   }

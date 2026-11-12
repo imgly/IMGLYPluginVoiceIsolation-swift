@@ -23,7 +23,7 @@ enum VoiceIsolationProcessor {
     }
   }
 
-  private nonisolated static let resultsDirectoryName = "ly.img.plugin.voiceIsolation"
+  private nonisolated static let resultsDirectoryName = "ly.img.plugin.voiceIsolation/results"
   private static let audioFileURIProperty = "audio/fileURI"
   private static let videoFileURIProperty = "fill/video/fileURI"
 
@@ -312,10 +312,10 @@ enum VoiceIsolationProcessor {
     return audioBlock
   }
 
-  /// The results stay in Application Support, where iOS does not purge them while the scene plays them.
+  /// The results go to Caches, so they stay out of backups and iOS can free their space.
   private nonisolated static func resultsDirectory() throws -> URL {
     let directory = try FileManager.default
-      .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+      .url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
       .appendingPathComponent(resultsDirectoryName, isDirectory: true)
     try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
     return directory

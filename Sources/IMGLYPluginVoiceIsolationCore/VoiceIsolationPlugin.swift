@@ -18,9 +18,10 @@ extension Logger {
 /// is muted. An audio clip is cleaned in place. The clip shows the loading state while the model runs, the model runs
 /// on one clip at a time, and one undo step brings the original audio back.
 ///
-/// Each cleaned clip plays a local WAV file (16-bit, 48 kHz, mono or stereo as the source) from the app's Application
-/// Support directory. The plugin uploads nothing; use `relocateResource(currentURL:relocatedURL:)` to keep
-/// the files elsewhere.
+/// Each cleaned clip plays a local WAV file (16-bit, 48 kHz, mono or stereo as the source) from the app's caches
+/// directory, which iOS can clear. The plugin uploads nothing. To keep the files, upload the `file://` URLs that
+/// `engine.editor.findAllMediaURIs()` returns, and point the scene to the uploads with
+/// `relocateResource(currentURL:relocatedURL:)`.
 @MainActor
 public final class VoiceIsolationPlugin: EditorConfiguration {
   private let provider: any VoiceIsolationProvider
